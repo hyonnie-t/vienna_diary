@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>1815~1848 역할 일기</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;700&family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="previewBar" class="preview-bar" hidden>미리보기 모드 — 저장되지 않아</div>
+<main class="page">
+  <header class="book-head">
+    <div class="eyebrow">세계사 주제30 · 교과서 150~153쪽</div>
+    <h1>1815~1848, 그날의 일기</h1>
+    <ol id="steps" class="steps" aria-label="진행 단계" hidden>
+      <li data-k="draw"><span>1</span>뽑기</li>
+      <li data-k="fact"><span>2</span>사실 고르기</li>
+      <li data-k="write"><span>3</span>쓰기</li>
+      <li data-k="wrap"><span>4</span>마무리</li>
+    </ol>
+  </header>
+
+  <!-- 시작 -->
+  <section id="s0" class="screen">
+    <div class="card">
+      <h2>시작하기</h2>
+      <p class="note">역할 카드를 뽑아서, 그 사람이 되어 하루 일기를 써 볼 거야.</p>
+      <label for="sid">학번 (5자리, 예: 20512)</label>
+      <input id="sid" inputmode="numeric" maxlength="5" autocomplete="off">
+      <label for="sname">이름</label>
+      <input id="sname" autocomplete="off">
+      <p id="startErr" class="err" role="alert"></p>
+      <button id="startBtn" class="btn wide">시작</button>
+    </div>
+  </section>
+
+  <!-- 1. 뽑기 -->
+  <section id="s1" class="screen" hidden>
+    <div class="card">
+      <h2>역할 카드 뽑기</h2>
+      <p id="drawNote" class="note">카드 2장이 나와. 그중 1장을 골라 그 사람이 되어 보자.</p>
+      <button id="drawBtn" class="btn wide">카드 뽑기</button>
+      <div id="drawArea" class="draw-area" hidden></div>
+    </div>
+    <div class="btn-row nav">
+      <button id="s1Next" class="btn">다음</button>
+    </div>
+    <p id="s1Err" class="err" role="alert"></p>
+  </section>
+
+  <!-- 2. 사실 고르기 -->
+  <section id="s2" class="screen" hidden>
+    <div class="card">
+      <div id="s2Role" class="role-tag"></div>
+      <h2>일기에 쓸 사실 1개 고르기</h2>
+      <p class="note">내 카드에 적힌 교과서 사실이야. 오늘 일기에 쓸 일 하나를 골라.</p>
+      <div id="factList" class="fact-list"></div>
+    </div>
+    <div class="btn-row nav">
+      <button id="s2Back" class="btn ghost">이전</button>
+      <button id="s2Next" class="btn">다음</button>
+    </div>
+    <p id="s2Err" class="err" role="alert"></p>
+  </section>
+
+  <!-- 3. 쓰기 -->
+  <section id="s3" class="screen" hidden>
+    <div id="frameNote" class="frame-note" role="note"></div>
+    <div class="card recap">
+      <div id="s3Role" class="role-tag"></div>
+      <div class="recap-label">오늘 고른 사실</div>
+      <p id="s3Fact" class="recap-text"></p>
+    </div>
+    <div id="partBox"></div>
+    <div class="btn-row nav">
+      <button id="s3Back" class="btn ghost">이전</button>
+      <button id="s3Next" class="btn">다음</button>
+    </div>
+    <p id="s3Err" class="err" role="alert"></p>
+  </section>
+
+  <!-- 4. 마무리 -->
+  <section id="s4" class="screen" hidden>
+    <div class="card">
+      <h2>내 일기 한 편</h2>
+      <p class="note">다시 읽어 보고, 고칠 게 있으면 이전으로 돌아가서 고쳐.</p>
+      <div id="diary" class="diary"></div>
+      <p id="s4Err" class="err" role="alert"></p>
+      <div class="btn-row">
+        <button id="submitBtn" class="btn">제출</button>
+        <button id="copyBtn" class="btn ghost">글 복사</button>
+      </div>
+      <p id="outMsg" class="note" role="status"></p>
+      <div class="padlet-box">
+        <p class="padlet-guide">제출하고 나서 <b>글 복사</b>를 누르고, 우리 반 패들렛에 붙여넣어 올려 줘.</p>
+        <a id="padletBtn" class="btn ghost wide" target="_blank" rel="noopener" hidden>우리 반 패들렛 열기</a>
+        <p id="padletMsg" class="note"></p>
+      </div>
+    </div>
+    <div class="btn-row nav">
+      <button id="s4Back" class="btn ghost">이전</button>
+    </div>
+  </section>
+</main>
+<script src="focus_guard.js"></script>
+<script src="glossary.js"></script>
+<script src="draft_guard.js"></script>
+<script src="data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

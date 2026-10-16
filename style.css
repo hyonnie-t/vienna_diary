@@ -1,0 +1,108 @@
+/* 색: 1815~1848 혁명과 개혁의 유럽 — 빛바랜 종이 바탕에 인쇄 잉크 같은 남색, 바리케이드 깃발의 꼭두서니(채도 낮춘 붉은색),
+   의회 문장의 낡은 놋쇠색. 남색=본문·카드 뒷면, 꼭두서니=선택·강조 인장, 놋쇠=테두리·장식. 다른 차시 배색과 겹치지 않게 새로 짰다. */
+:root{
+  --paper:#f3ede0;--page:#fbf8f1;--ink:#24304a;--muted:#5f6472;--line:#d8cdb6;
+  --navy:#2b3a5c;--navy-deep:#1e2a44;--madder:#9a4434;--madder-wash:#f6e6e0;
+  --brass:#a7843c;--brass-wash:#f4ead3;--sage-wash:#e8ece3
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{font-size:17px}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:"Noto Serif KR","Nanum Myeongjo",serif;line-height:1.75}
+.page{max-width:760px;margin:0 auto;padding:12px 16px 72px}
+.preview-bar{background:var(--madder);color:#fff;text-align:center;padding:6px;font:16px "Noto Sans KR",sans-serif}
+
+/* 머리 */
+.book-head{padding:14px 0 6px;border-bottom:1px solid var(--line);margin-bottom:14px}
+.eyebrow{color:var(--brass);font:700 16px "Noto Sans KR",sans-serif;letter-spacing:.02em}
+h1{font-size:1.6rem;line-height:1.35;margin:2px 0 12px}
+h2{font-size:1.25rem;margin:0 0 8px;line-height:1.4}
+.steps{list-style:none;display:flex;gap:6px;margin:0 0 10px;padding:0;font-family:"Noto Sans KR",sans-serif}
+.steps li{flex:1;display:flex;align-items:center;justify-content:center;gap:6px;padding:7px 6px;border-bottom:3px solid var(--line);color:var(--muted);font-size:16px}
+.steps li span{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:50%;border:1px solid var(--line);font-size:14px;flex:none}
+.steps li.on{border-color:var(--madder);color:var(--madder);font-weight:700}
+.steps li.on span{background:var(--madder);border-color:var(--madder);color:#fff}
+.steps li.done{border-color:var(--navy);color:var(--navy)}
+.steps li.done span{background:var(--navy);border-color:var(--navy);color:#fff}
+
+/* 카드(책 페이지) */
+.card{background:var(--page);border:1px solid var(--line);border-radius:5px;padding:18px;margin-bottom:14px;box-shadow:0 1px 3px rgba(40,30,10,.07)}
+.note{color:var(--muted);margin:0 0 10px}
+label{display:block;margin:12px 0 4px;font:700 16px "Noto Sans KR",sans-serif}
+input,textarea{width:100%;font:inherit;font-size:17px;padding:12px;border:1px solid var(--line);border-radius:4px;background:#fff;color:var(--ink)}
+textarea{resize:vertical;line-height:1.7}
+input:focus,textarea:focus,button:focus-visible,summary:focus-visible,.fact-opt:focus-visible{outline:3px solid #b9c4dc;outline-offset:1px;border-color:var(--navy)}
+
+/* 버튼 */
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:50px;padding:10px 22px;font:700 17px "Noto Sans KR",sans-serif;color:#fff;background:var(--navy);border:1px solid var(--navy);border-radius:5px;cursor:pointer;text-decoration:none;margin-top:10px}
+.btn.ghost{background:var(--page);color:var(--navy)}
+.btn.wide{width:100%}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.btn-row{display:flex;gap:10px;flex-wrap:wrap}
+.nav{flex-wrap:nowrap}
+.nav .btn.ghost{flex:0 0 36%}
+.nav .btn:not(.ghost){flex:1}
+.err{color:var(--madder);font:700 16px "Noto Sans KR",sans-serif;min-height:1.2em;margin:6px 0 0}
+
+/* 1. 역할 카드 뒤집기 */
+.draw-area{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:6px}
+.flip{position:relative;display:block;width:100%;min-height:250px;padding:0;border:0;background:none;cursor:pointer;perspective:1000px;font:inherit;color:inherit;text-align:center}
+.flip-inner{position:absolute;inset:0;transition:transform .7s cubic-bezier(.3,.7,.3,1);transform-style:preserve-3d}
+.flip.flipped .flip-inner{transform:rotateY(180deg)}
+.face{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:18px 14px;border-radius:6px;-webkit-backface-visibility:hidden;backface-visibility:hidden}
+.face.back{background:var(--navy);border:1px solid var(--navy-deep);
+  background-image:repeating-linear-gradient(45deg,rgba(167,132,60,.18) 0 2px,transparent 2px 12px),repeating-linear-gradient(-45deg,rgba(167,132,60,.18) 0 2px,transparent 2px 12px);
+  box-shadow:inset 0 0 0 6px var(--navy),inset 0 0 0 7px var(--brass)}
+.back-mark{font:700 18px "Noto Sans KR",sans-serif;color:var(--brass-wash);letter-spacing:.08em;background:var(--navy);padding:4px 10px;border:1px solid var(--brass);border-radius:3px}
+.face.front{transform:rotateY(180deg);background:var(--page);border:1px solid var(--line);box-shadow:inset 0 0 0 5px var(--page),inset 0 0 0 6px var(--brass),0 1px 3px rgba(40,30,10,.08)}
+.front-kicker{font:700 15px "Noto Sans KR",sans-serif;color:var(--brass);letter-spacing:.1em}
+.front-role{font-size:1.15rem;font-weight:700;line-height:1.45;word-break:keep-all}
+.front-know{font:16px "Noto Sans KR",sans-serif;color:var(--navy);background:var(--brass-wash);border-radius:3px;padding:3px 10px;word-break:keep-all}
+.front-pick{font:15px "Noto Sans KR",sans-serif;color:var(--muted)}
+.flip[aria-pressed="true"] .face.front{background:var(--madder-wash);box-shadow:inset 0 0 0 5px var(--madder-wash),inset 0 0 0 7px var(--madder)}
+.flip[aria-pressed="true"] .front-pick{color:var(--madder);font-weight:700}
+.flip[aria-pressed="true"] .front-pick::before{content:"✓ "}
+
+/* 역할 표시 */
+.role-tag{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 10px;margin-bottom:10px;padding-bottom:8px;border-bottom:1px dashed var(--line)}
+.role-name{font-weight:700;color:var(--navy)}
+.role-know{font:16px "Noto Sans KR",sans-serif;color:var(--brass)}
+
+/* 2. 사실 고르기 */
+.fact-list{display:flex;flex-direction:column;gap:10px}
+.fact-opt{display:flex;gap:12px;align-items:flex-start;padding:12px 14px;border:1px solid var(--line);border-radius:5px;background:#fff;cursor:pointer;min-height:54px}
+.fact-box{flex:none;width:24px;height:24px;margin-top:3px;border:2px solid var(--line);border-radius:3px;display:flex;align-items:center;justify-content:center;color:#fff;font:700 16px "Noto Sans KR",sans-serif}
+.fact-text{margin:0}
+.pg{color:var(--muted);font:16px "Noto Sans KR",sans-serif;white-space:nowrap}
+.fact-opt[aria-checked="true"]{border-color:var(--madder);background:var(--madder-wash)}
+.fact-opt[aria-checked="true"] .fact-box{background:var(--madder);border-color:var(--madder)}
+.fact-opt[aria-checked="true"] .fact-box::after{content:"✓"}
+
+/* 3. 쓰기 */
+.frame-note{position:sticky;top:0;z-index:5;margin:0 -16px 14px;padding:8px 16px;background:var(--navy);color:#f4ead3;font:16px/1.5 "Noto Sans KR",sans-serif;box-shadow:0 2px 4px rgba(20,25,40,.15)}
+.frame-note p{margin:2px 0}
+.frame-note p:last-child{color:#f0c9a8;font-weight:700}
+.recap-label{font:16px "Noto Sans KR",sans-serif;color:var(--muted)}
+.recap-text{margin:4px 0 0;padding:10px 14px;background:var(--brass-wash);border-left:3px solid var(--brass);border-radius:0 4px 4px 0}
+.part-label{margin-top:0;font-size:17px;color:var(--navy)}
+.part-guide{margin:0 0 8px;color:var(--muted);font:16px "Noto Sans KR",sans-serif}
+.hint{margin:0 0 10px;padding:2px 14px;background:var(--sage-wash);border-radius:4px}
+.hint summary{cursor:pointer;min-height:44px;display:flex;align-items:center;font:700 16px "Noto Sans KR",sans-serif;color:#4d5e3f}
+.hint p{margin:2px 0 10px}
+.count{color:var(--muted);font:15px "Noto Sans KR",sans-serif;text-align:right;margin-top:4px}
+
+/* 4. 마무리 */
+.diary{background:#fff;border:1px solid var(--line);border-left:3px double var(--madder);border-radius:4px;padding:16px 18px 4px 20px}
+.diary-who{font-weight:700;color:var(--navy)}
+.diary-fact{color:var(--muted);font-size:16px;margin-bottom:10px}
+.diary-p{margin:0 0 14px;white-space:pre-wrap}
+.padlet-box{margin-top:16px;padding-top:12px;border-top:1px dashed var(--line)}
+.padlet-guide{margin:0}
+
+@media (max-width:560px){
+  .draw-area{grid-template-columns:1fr}
+  .flip{min-height:200px}
+  .steps li{font-size:15px;padding:6px 2px}
+  .steps li span{display:none}
+  .btn-row:not(.nav) .btn{flex:1}
+}
