@@ -212,7 +212,7 @@ function renderFacts() {
 function buildParts() {
   const box = $("partBox");
   PARTS.forEach(pt => {
-    const card = el("div", "card part");
+    const card = el("div", "part");
     const lab = el("label", "part-label", pt.label);
     lab.htmlFor = pt.id;
     card.appendChild(lab);
@@ -221,9 +221,9 @@ function buildParts() {
     d.appendChild(el("summary", "", "💡 막막하면 힌트 보기"));
     d.appendChild(el("p", "", pt.hint));
     card.appendChild(d);
-    const ta = el("textarea");
+    const ta = el("textarea", "lined");
     ta.id = pt.id; ta.rows = pt.rows;
-    ta.placeholder = "여기에 써 줘.";
+    ta.placeholder = "여기에 일기를 써 줘.";
     const cnt = el("div", "count");
     const upd = () => { cnt.textContent = ta.value.trim().length + "자"; };
     ta.addEventListener("input", () => { upd(); $("s3Err").textContent = ""; });
@@ -266,9 +266,15 @@ function renderDiary() {
   const c = chosenCard();
   const box = $("diary");
   box.innerHTML = "";
-  box.appendChild(el("div", "diary-who", "나는 " + c.role + ". (" + knowText(c) + ")"));
-  box.appendChild(el("div", "diary-fact", "오늘 고른 사실: " + factText(chosenFact())));
-  PARTS.forEach(pt => box.appendChild(el("p", "diary-p", partValue(pt.id))));
+  const who = el("div", "diary-who");
+  who.appendChild(el("span", "role-name", c.role));
+  who.appendChild(el("span", "role-know", knowText(c)));
+  box.appendChild(who);
+  box.appendChild(el("div", "diary-fact", "오늘 고른 일: " + factText(chosenFact())));
+  PARTS.forEach((pt, i) => {
+    box.appendChild(el("p", "diary-p", partValue(pt.id)));
+    if (i < PARTS.length - 1) box.appendChild(el("div", "diary-gap"));
+  });
   $("submitBtn").disabled = S.submitted;
   $("submitBtn").textContent = S.submitted ? "제출 완료" : "제출";
   renderPadlet();

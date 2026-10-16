@@ -6,7 +6,7 @@
 <title>1815~1848 역할 일기</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;700&family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Jua&family=Gaegu:wght@400;700&family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -14,7 +14,7 @@
 <main class="page">
   <header class="book-head">
     <div class="eyebrow">세계사 주제30 · 교과서 150~153쪽</div>
-    <h1>1815~1848, 그날의 일기</h1>
+    <h1>✏️ 1815~1848, 그날의 일기</h1>
     <ol id="steps" class="steps" aria-label="진행 단계" hidden>
       <li data-k="draw"><span>1</span>뽑기</li>
       <li data-k="fact"><span>2</span>사실 고르기</li>
@@ -26,8 +26,8 @@
   <!-- 시작 -->
   <section id="s0" class="screen">
     <div class="card">
-      <h2>시작하기</h2>
-      <p class="note">역할 카드를 뽑아서, 그 사람이 되어 하루 일기를 써 볼 거야.</p>
+      <h2>📖 일기장 열기</h2>
+      <p class="note">카드를 뽑아서 그 사람이 되어 보자. 그 사람의 일기를 대신 써 주는 거야!</p>
       <label for="sid">학번 (5자리, 예: 20512)</label>
       <input id="sid" inputmode="numeric" maxlength="5" autocomplete="off">
       <label for="sname">이름</label>
@@ -40,7 +40,7 @@
   <!-- 1. 뽑기 -->
   <section id="s1" class="screen" hidden>
     <div class="card">
-      <h2>역할 카드 뽑기</h2>
+      <h2>🎴 오늘의 나는 누구?</h2>
       <p id="drawNote" class="note">카드 2장이 나와. 그중 1장을 골라 그 사람이 되어 보자.</p>
       <button id="drawBtn" class="btn wide">카드 뽑기</button>
       <div id="drawArea" class="draw-area" hidden></div>
@@ -55,8 +55,8 @@
   <section id="s2" class="screen" hidden>
     <div class="card">
       <div id="s2Role" class="role-tag"></div>
-      <h2>일기에 쓸 사실 1개 고르기</h2>
-      <p class="note">내 카드에 적힌 교과서 사실이야. 오늘 일기에 쓸 일 하나를 골라.</p>
+      <h2>📌 오늘 있었던 일 고르기</h2>
+      <p class="note">내 카드에 적힌 교과서 사실이야. 일기에 쓸 일 하나를 골라 봐.</p>
       <div id="factList" class="fact-list"></div>
     </div>
     <div class="btn-row nav">
@@ -69,12 +69,12 @@
   <!-- 3. 쓰기 -->
   <section id="s3" class="screen" hidden>
     <div id="frameNote" class="frame-note" role="note"></div>
-    <div class="card recap">
+    <div class="recap">
       <div id="s3Role" class="role-tag"></div>
-      <div class="recap-label">오늘 고른 사실</div>
+      <div class="recap-label">오늘 고른 일</div>
       <p id="s3Fact" class="recap-text"></p>
     </div>
-    <div id="partBox"></div>
+    <div id="partBox" class="notebook"></div>
     <div class="btn-row nav">
       <button id="s3Back" class="btn ghost">이전</button>
       <button id="s3Next" class="btn">다음</button>
@@ -85,8 +85,8 @@
   <!-- 4. 마무리 -->
   <section id="s4" class="screen" hidden>
     <div class="card">
-      <h2>내 일기 한 편</h2>
-      <p class="note">다시 읽어 보고, 고칠 게 있으면 이전으로 돌아가서 고쳐.</p>
+      <h2>📔 내 일기 완성!</h2>
+      <p class="note">천천히 읽어 보고, 고치고 싶으면 이전으로 돌아가.</p>
       <div id="diary" class="diary"></div>
       <p id="s4Err" class="err" role="alert"></p>
       <div class="btn-row">
