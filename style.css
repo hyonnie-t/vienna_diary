@@ -127,3 +127,8 @@ textarea.lined:focus{outline:0;background-color:#fffbe8}
   .btn-row:not(.nav) .btn{flex:1}
   .notebook,.diary{border-left-width:10px;padding-left:12px;padding-right:12px}
 }
+
+.material{margin:0 0 14px}
+.mat-list{margin:0 0 12px;padding-left:20px}
+.mat-list li{margin:4px 0}
+.mat-on{font-weight:700;color:#2d6a4f}

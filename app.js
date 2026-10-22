@@ -220,7 +220,8 @@ function buildParts() {
     card.appendChild(el("p", "part-guide", pt.guide));
     const d = el("details", "hint");
     d.appendChild(el("summary", "", "💡 막막하면 힌트 보기"));
-    d.appendChild(el("p", "", pt.hint));
+    const hp = el("p", "", pt.hint); hp.id = pt.id + "Hint"; hp.dataset.tpl = pt.hint;
+    d.appendChild(hp);
     card.appendChild(d);
     const ta = el("textarea", "lined");
     ta.id = pt.id; ta.rows = pt.rows;
@@ -238,6 +239,14 @@ function buildParts() {
 function renderWriteHead() {
   roleTag($("s3Role"));
   $("s3Fact").textContent = factText(chosenFact());
+  const c = chosenCard(), f = chosenFact();
+  PARTS.forEach(pt => { const hp = $(pt.id + "Hint"); hp.textContent = hp.dataset.tpl.replace("{p}", f.p); });
+  const m = $("s3Material");
+  m.innerHTML = ""; m.open = false;
+  m.appendChild(el("summary", "", "📖 내 카드 자료 (교과서 " + f.p + "쪽)"));
+  const ul = el("ul", "mat-list");
+  c.facts.forEach(x => ul.appendChild(el("li", x === f ? "mat-on" : "", x.t + " (" + x.p + "쪽)")));
+  m.appendChild(ul);
 }
 
 /* 임시저장에서 되살아난 안내 문구는 비운다 */
