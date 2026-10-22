@@ -167,7 +167,7 @@ function renderDraw(animate) {
   $("drawArea").hidden = !has;
   $("drawNote").textContent = has
     ? "둘 중 1장을 눌러서 골라. 카드는 다시 뽑을 수 없어."
-    : "카드 2장이 나와. 그중 1장을 골라 그 사람이 되어 보자.";
+    : "역할 카드는 " + CARDS.length + "종류야. 그중 2장이 나오니까 1장을 골라 그 사람이 되어 보자.";
   $("drawArea").innerHTML = "";
   S.cards.forEach((id, i) => $("drawArea").appendChild(cardEl(byId(CARDS, id), animate, i)));
 }
