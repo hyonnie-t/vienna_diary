@@ -114,6 +114,7 @@ function startApp() {
   S.sid = sid; S.name = name; S.grade = p.grade; S.ban = p.ban;
   FocusGuard.start({ key: CONFIG.GAME_NAME + ":" + sid }); // 작성 중 화면 이탈·붙여넣기 기록 (history26 snippets/focus_guard.js)
   if (window.DraftGuard) DraftGuard.start({ key: CONFIG.GAME_NAME, sid: sid }); // 글쓰기 칸 임시저장 (history26 v75)
+  clearBoilerplate();
   loadPadletUrl(p.grade, p.ban).then(u => { S.padletUrl = u; renderPadlet(); });
   loadPick();
   renderDraw(false);
@@ -239,7 +240,24 @@ function renderWriteHead() {
   $("s3Fact").textContent = factText(chosenFact());
 }
 
+/* 임시저장에서 되살아난 안내 문구는 비운다 */
+function clearBoilerplate() {
+  PARTS.forEach(pt => {
+    const t = $(pt.id);
+    if (t.value && isBoilerplate(t.value)) { t.value = ""; t.dispatchEvent(new Event("input", { bubbles: true })); }
+  });
+}
+
 function partValue(id) { return $(id).value.trim(); }
+
+/* 안내·예시 문구(옛 버전 포함)가 칸에 들어간 경우를 가려낸다 */
+const OLD_TEXTS = ["고른 사실을 내 말로 (1~2문장)", "여기에 일기를 써 줘.", "여기에 써 줘."];
+function isBoilerplate(v) {
+  const s = squash(v);
+  if (s.length < 3) return false;
+  const pool = PARTS.flatMap(pt => [pt.label, pt.guide, pt.ph || "", pt.hint]).concat(FRAME_NOTES, OLD_TEXTS);
+  return pool.some(t => squash(t).includes(s));
+}
 
 const squash = t => t.replace(/[\s.,'"‘’“”「」()]/g, "");
 
