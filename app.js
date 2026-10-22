@@ -8,7 +8,7 @@ const CONFIG = {
 
 const S = {
   sid: "", name: "", grade: 0, ban: 0, preview: false,
-  cards: [], chosen: "", fact: -1,
+  cards: [], chosen: "", fact: -1, redo: false,
   sending: false, submitted: false, padletUrl: ""
 };
 
@@ -58,7 +58,7 @@ function loadPick() {
     const v = JSON.parse(localStorage.getItem(storeKey()) || "null");
     if (!v || !Array.isArray(v.cards) || v.cards.length !== CONFIG.DRAW_COUNT) return;
     if (!v.cards.every(id => byId(CARDS, id))) return;
-    S.cards = v.cards;
+    S.cards = v.cards; S.redo = !!v.redo;
     S.chosen = v.cards.indexOf(v.chosen) >= 0 ? v.chosen : "";
     const c = chosenCard();
     S.fact = c && v.fact >= 0 && v.fact < c.facts.length ? v.fact : -1;
@@ -68,7 +68,7 @@ function loadPick() {
 function savePick() {
   if (S.preview) return;
   try {
-    localStorage.setItem(storeKey(), JSON.stringify({ cards: S.cards, chosen: S.chosen, fact: S.fact, ts: Date.now() }));
+    localStorage.setItem(storeKey(), JSON.stringify({ cards: S.cards, chosen: S.chosen, fact: S.fact, redo: S.redo, ts: Date.now() }));
   } catch (e) { /* 저장소가 막히면 메모리만 */ }
 }
 
@@ -122,9 +122,9 @@ function startApp() {
 }
 
 /* ── 1. 뽑기 ── */
-function drawCards() {
-  if (S.cards.length) return; // 재뽑기 없음
-  const pool = CARDS.map(c => c.id);
+function drawCards(exclude) {
+  if (S.cards.length && !exclude) return; // 다시 뽑기는 redrawCards()로 딱 1번만
+  const pool = CARDS.map(c => c.id).filter(id => !exclude || exclude.indexOf(id) < 0);
   for (let i = pool.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
     const t = pool[i]; pool[i] = pool[j]; pool[j] = t;
@@ -133,6 +133,18 @@ function drawCards() {
   S.chosen = ""; S.fact = -1;
   savePick();
   renderDraw(true);
+}
+
+function redrawCards() {
+  if (S.redo || !S.cards.length || S.submitted) return;
+  if (!window.confirm("카드는 딱 1번만 다시 뽑을 수 있어. 다시 뽑을까?")) return;
+  const prev = S.cards.slice();
+  S.redo = true;
+  PARTS.forEach(pt => { $(pt.id).value = ""; $(pt.id).dispatchEvent(new Event("input", { bubbles: true })); });
+  if (window.DraftGuard) DraftGuard.clear(); // 앞 카드로 쓰던 글은 비운다
+  S.cards = []; S.chosen = ""; S.fact = -1;
+  $("s1Err").textContent = "";
+  drawCards(prev);
 }
 
 function cardEl(card, animate, idx) {
@@ -165,8 +177,9 @@ function renderDraw(animate) {
   const has = S.cards.length > 0;
   $("drawBtn").hidden = has;
   $("drawArea").hidden = !has;
+  $("redrawBtn").hidden = !has || S.redo || S.submitted;
   $("drawNote").textContent = has
-    ? "둘 중 1장을 눌러서 골라. 카드는 다시 뽑을 수 없어."
+    ? (S.redo ? "둘 중 1장을 눌러서 골라. 다시 뽑기는 이미 썼어." : "둘 중 1장을 눌러서 골라. 마음에 안 들면 딱 1번 다시 뽑을 수 있어.")
     : "역할 카드는 " + CARDS.length + "종류야. 그중 2장이 나오니까 1장을 골라 그 사람이 되어 보자.";
   $("drawArea").innerHTML = "";
   S.cards.forEach((id, i) => $("drawArea").appendChild(cardEl(byId(CARDS, id), animate, i)));
@@ -409,7 +422,8 @@ function init() {
   buildParts();
 
   $("startBtn").addEventListener("click", startApp);
-  $("drawBtn").addEventListener("click", drawCards);
+  $("drawBtn").addEventListener("click", () => drawCards());
+  $("redrawBtn").addEventListener("click", redrawCards);
   $("s1Next").addEventListener("click", goFact);
   $("s2Back").addEventListener("click", () => { renderDraw(false); show("s1"); });
   $("s2Next").addEventListener("click", goWrite);
