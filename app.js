@@ -223,7 +223,7 @@ function buildParts() {
     card.appendChild(d);
     const ta = el("textarea", "lined");
     ta.id = pt.id; ta.rows = pt.rows;
-    ta.placeholder = "여기에 일기를 써 줘.";
+    ta.placeholder = pt.ph || "";
     const cnt = el("div", "count");
     const upd = () => { cnt.textContent = ta.value.trim().length + "자"; };
     ta.addEventListener("input", () => { upd(); $("s3Err").textContent = ""; });
@@ -241,15 +241,28 @@ function renderWriteHead() {
 
 function partValue(id) { return $(id).value.trim(); }
 
+const squash = t => t.replace(/[\s.,'"‘’“”「」()]/g, "");
+
 function checkParts() {
   for (const pt of PARTS) {
     if (partValue(pt.id).length < pt.min) return pt.label.slice(0, 1) + " 칸을 조금 더 써 줘.";
+  }
+  /* 안내 문구를 그대로 낸 글은 돌려보낸다 */
+  for (const pt of PARTS) {
+    const v = squash(partValue(pt.id));
+    if (v === squash(pt.guide) || v === squash(pt.ph || "")) return pt.label.slice(0, 1) + " 칸에 내 글을 써 줘.";
+  }
+  /* 교과서 문장을 그대로 옮긴 글은 돌려보낸다 */
+  const fact = squash(chosenFact().t);
+  if (squash(partValue("partEvent")).includes(fact.slice(0, Math.min(fact.length, 18)))) {
+    return "① 칸에 교과서 문장을 그대로 옮겼어. 내 말로 바꿔 써 줘.";
   }
   return "";
 }
 
 /* ── 4. 마무리 ── */
 function diaryBody() { return PARTS.map(pt => partValue(pt.id)).join("\n\n"); }
+function diaryWithFact() { return "오늘 고른 사실: " + factText(chosenFact()) + "\n\n" + diaryBody(); } // 제출 본문(G열)
 
 function buildOutText() {
   const c = chosenCard();
@@ -299,7 +312,7 @@ async function submitDiary() {
   const payload = {
     studentId: S.sid, studentName: S.name, gameName: CONFIG.GAME_NAME,
     choiceSummary: c.role + " / " + factText(f), diffSummary: "",
-    reflection: diaryBody(), // 시트 G열: ①②③ 합본
+    reflection: diaryWithFact(), // 시트 G열: 고른 사실 + ①②③ 합본
     choicesJson: JSON.stringify({
       sid: S.sid, name: S.name, ban: S.ban,
       drawn: S.cards, cardId: c.id, factIndex: S.fact, fact: factText(f),

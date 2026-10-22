@@ -69,11 +69,11 @@ const CARDS = [
 
 /* 쓰기 칸 3개 — 힌트는 축 질문만(결론 없음) */
 const PARTS = [
-  { id: "partEvent", label: "① 그날 있었던 일", guide: "고른 사실을 내 말로 (1~2문장)", rows: 3, min: 10,
+  { id: "partEvent", label: "① 그날 있었던 일", guide: "1~2문장", rows: 3, min: 15, ph: "내가 본 장면을 떠올리며 직접 써 보자",
     hint: "교과서 쪽수를 펼쳐서 누가 누구에게 무엇을 했는지 찾아봐." },
-  { id: "partFeel", label: "② 내 처지에서 기대되는 점, 불만인 점", guide: "2~3문장", rows: 5, min: 20,
+  { id: "partFeel", label: "② 내 처지에서 기대되는 점, 불만인 점", guide: "1~2문장", rows: 4, min: 20, ph: "내 입장이 되어 솔직하게 써 보자",
     hint: "이 일로 내가 얻는 건 뭘까? 잃을 수 있는 건 뭘까?" },
-  { id: "partNext", label: "③ 내일 나는 뭘 하고 싶어?", guide: "1문장", rows: 2, min: 5,
+  { id: "partNext", label: "③ 내일 나는 뭘 하고 싶어?", guide: "1문장", rows: 2, min: 8, ph: "내일의 나를 상상하며 써 보자",
     hint: "내일 내가 할 수 있는 행동에는 뭐가 있을까? 그중에 뭘 고를래?" }
 ];
 
